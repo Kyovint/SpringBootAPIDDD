@@ -2,11 +2,9 @@ package com.kyovint.RetoUno;
 
 import com.kyovint.RetoUno.application.ports.input.IProductPort;
 import com.kyovint.RetoUno.application.ports.output.IConectorPort;
-import com.kyovint.RetoUno.application.ports.output.IProductPersistencePort;
 import com.kyovint.RetoUno.application.service.ProductPortImp;
 import com.kyovint.RetoUno.infraestructure.adapters.input.ProductController;
 import com.kyovint.RetoUno.infraestructure.adapters.output.ConectorAdapter;
-import com.kyovint.RetoUno.infraestructure.adapters.output.ProductPersistenceAdapter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -31,7 +29,7 @@ public class RetoUnoApplication {
 		* OutputPortAppLayer OutputPortName (Output Application layer) = new InstanceAndImplementPersistenceAdapter (Output Infrastructure Layer)
 		* */
 
-		IProductPersistencePort productPersistence = new ProductPersistenceAdapter();
+		IConectorPort iConectorPort= new ConectorAdapter();
 
 		/* #2 POST METHOD
 		* 	EVENT: Controller needs transport the information from infrastructure layer to application layer to execute
@@ -42,7 +40,7 @@ public class RetoUnoApplication {
 		* 	InputPort InputPortName(USE CASE) = new Service(Output Infrastructure port)
 		*  */
 
-		IProductPort productUseCase = new ProductPortImp(productPersistence);
+		IProductPort productUseCase = new ProductPortImp(iConectorPort);
 
 		/* 	#1 POST METHOD
 		*	EVENT: Controller receives HTTP POST REQUEST and validates the content of the input json through DTO
@@ -52,7 +50,6 @@ public class RetoUnoApplication {
 		* 	Controller ControllerName = new Controller (Input Application port)
 		* */
 
-		IConectorPort iConectorPort= new ConectorAdapter();
 		ProductController productController = new ProductController(productUseCase, iConectorPort);
 	}
 

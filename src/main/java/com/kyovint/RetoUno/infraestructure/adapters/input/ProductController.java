@@ -5,6 +5,7 @@ import com.kyovint.RetoUno.application.ports.output.IConectorPort;
 import com.kyovint.RetoUno.infraestructure.dto.ProductDTO;
 import com.kyovint.RetoUno.infraestructure.exceptions.AlreadyExistsException;
 import com.kyovint.RetoUno.infraestructure.jpa.ProductJPA;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -76,15 +77,17 @@ public class ProductController {
 
     @GetMapping("/consultAll")
     @CrossOrigin(origins = "*", methods = {RequestMethod.GET})
-    public ResponseEntity<List<ProductJPA>> getproducts(){
-        List<ProductJPA> productList = iConectorPort.getlistProducts();
+    public ResponseEntity<List<ProductDTO>> getproducts(){
+        List<ProductDTO> productList = iConectorPort.getlistProducts();
         return new ResponseEntity<>(productList, HttpStatus.OK);
     }
 
+    /* WAIT A SECOND*/
+
     @GetMapping("/{type}"+"Type")
     @CrossOrigin(origins = "*", methods = {RequestMethod.GET})
-    public ResponseEntity<List<ProductJPA>> getproductsByType(@PathVariable String type){
-        List<ProductJPA> productList = iConectorPort.getlistProducts();
+    public ResponseEntity<List<ProductDTO>> getproductsByType(@PathVariable String type){
+        List<ProductDTO> productList = iConectorPort.getlistProducts();
 
         if (type.equals("")){
             throw new AlreadyExistsException("Impossible find products with empty param.");

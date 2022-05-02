@@ -1,10 +1,12 @@
 package com.kyovint.RetoUno.application.ports.output;
 
-import com.kyovint.RetoUno.infraestructure.jpa.ProductJPA;
+import com.kyovint.RetoUno.domain.model.Product;
+import com.kyovint.RetoUno.infraestructure.dto.ProductDTO;
 
 import java.util.List;
 
 public interface IConectorPort {
 
-    List<ProductJPA> getlistProducts();
+    boolean createProduct(Product product);
+    List<ProductDTO> getlistProducts();
 }
